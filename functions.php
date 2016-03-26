@@ -18,16 +18,15 @@
 
 // Add the framework
 include_once('framework/init.php');
-include_once('framework/simple-local-avatars.php');
 include_once('framework/RationalOptionPages.php');
-include('framework/common.php');
-include('framework/maxfu_custom_posts.php');
-include('framework/maxfu_custom_metabox.php');
-include('framework/maxfu_custom_admin_menu.php');
-include('framework/maxfu_custom_customiser.php');
+include_once('framework/common.php');
+include_once('framework/maxfu_custom_posts.php');
+include_once('framework/maxfu_custom_metabox.php');
+include_once('framework/maxfu_custom_admin_menu.php');
+include_once('framework/maxfu_custom_customiser.php');
 
-//add the jq of image 2013-12-12
-wp_enqueue_script('custom-js', get_stylesheet_directory_uri().'/framework/js/custom-js.js');
+// add the jq of image 2013-12-12
+// wp_enqueue_script('custom-js', get_stylesheet_directory_uri().'/framework/js/custom-js.js');
 
 // Bootstrap pagination function
 

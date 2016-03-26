@@ -232,31 +232,6 @@ class PyreThemeFrameworkMetaboxes {
 		echo $html;
 	}
 
-	//add 2013-12-12
-	public function image($id, $label, $desc, $html = '')
-	{
-		global $post;
-		$image = get_template_directory_uri().'/images/image.png';
-		$html .='<span class="custom_default_image" style="display:none">'.$image.'</span>';
-
-		$html .= '<div class="pyre_metabox_field">';
-		$html .= '<label for="pyre_' . $id . '">';
-		$html .= $label;
-		$html .= '</label>';
-		$html .= '<div class="field">';
-		$image = wp_get_attachment_image_src(get_post_meta($post->ID, 'pyre_' . $id, true), 'medium'); $image = $image[0];
-		$html .='<input name="pyre_' . $id . '" type="hidden" class="custom_upload_image" value="'.get_post_meta($post->ID, 'pyre_' . $id, true) .'" />
-                <img src="'.$image.'" class="custom_preview_image" alt="" /><br />
-                    <input class="custom_upload_image_button button" type="button" value="Choose Image" />
-                    <small> <a href="#" class="custom_clear_image_button">Remove Image</a></small>
-                    <br clear="all" /><span class="description">'.$desc.'';
-		$html .= '</div>';
-		$html .= '</div>';
-
-		echo $html;
-	}
-
-
  	public function checkbox_group($id, $label, $options, $desc, $read=null,$html = '')
 	{
 		global $post;
@@ -314,40 +289,6 @@ class PyreThemeFrameworkMetaboxes {
 		}
 		</script>
         <?php
-	}
-
-	public function date($id, $label, $desc, $html = '')
-	{
-		global $post;
-		?>
-		<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
-		<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-		<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-		<script>
-		$(function() {
-		$( "#cookie_date_<?php echo $id?>" ).datepicker();
-		});
-		</script>
-		<?php
-		$html .= '<div class="pyre_metabox_field">';
-		$html .= '<label for="pyre_' . $id . '">';
-		$html .= $label;
-		$html .= '</label>';
-		$html .= '<div class="field">';
-
-		if(get_post_meta($post->ID, 'pyre_' . $id, true)){
-		$html .= '<input name="pyre_' . $id.'" id="cookie_date_'.$id.'" value="'.get_post_meta($post->ID, 'pyre_' . $id, true).'"/>';
-		}else{
-		  $html .= '<input name="pyre_' . $id.'" id="cookie_date_'.$id.'" value="(Select the date)"/>';
-		}
-
-		if($desc) {
-		$html .= '<p>' . $desc . '</p>';
-		}
-		$html .= '</div>';
-		$html .= '</div>';
-
-		echo $html;
 	}
 
 	//add 2014-2-17
