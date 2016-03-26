@@ -145,12 +145,12 @@ class Staff_Meta_Box {
 		array(
 			'id' => 'telephone',
 			'label' => 'Telephone',
-			'type' => 'tel',
+			'type' => 'text',
 		),
 		array(
 			'id' => 'email',
 			'label' => 'Email',
-			'type' => 'email',
+			'type' => 'text',
 		),
 		array(
 			'id' => 'wechat',
@@ -160,7 +160,17 @@ class Staff_Meta_Box {
 		array(
 			'id' => 'linkedin',
 			'label' => 'Linkedin',
-			'type' => 'url',
+			'type' => 'text',
+		),
+		array(
+			'id' => 'is-agent',
+			'label' => 'Is this staff an agent?',
+			'type' => 'checkbox',
+		),
+		array(
+			'id' => 'is-top-agent',
+			'label' => 'Is this staff a top agent?',
+			'type' => 'checkbox',
 		),
 	);
 
@@ -180,7 +190,7 @@ class Staff_Meta_Box {
 		foreach ( $this->screens as $screen ) {
 			add_meta_box(
 				'staff-option',
-				__( 'Staff Option', 'sparkling' ),
+				__( 'Staff Option', 'sparling' ),
 				array( $this, 'add_meta_box_callback' ),
 				$screen,
 				'advanced',
@@ -209,6 +219,14 @@ class Staff_Meta_Box {
 			$label = '<label for="' . $field['id'] . '">' . $field['label'] . '</label>';
 			$db_value = get_post_meta( $post->ID, 'staff_option_' . $field['id'], true );
 			switch ( $field['type'] ) {
+				case 'checkbox':
+					$input = sprintf(
+						'<input %s id="%s" name="%s" type="checkbox" value="1">',
+						$db_value === '1' ? 'checked' : '',
+						$field['id'],
+						$field['id']
+					);
+					break;
 				default:
 					$input = sprintf(
 						'<input %s id="%s" name="%s" type="%s" value="%s">',

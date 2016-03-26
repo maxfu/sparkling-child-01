@@ -12,18 +12,7 @@ class PyreThemeFrameworkMetaboxes {
 	{
 		$this->add_meta_box('post_options', 'Post Options', 'post');
 		$this->add_meta_box('page_options', 'Page Options', 'page');
-		$this->add_meta_box('contact_options', 'Contact Form Options', 'page');
 		$this->add_meta_box('portfolio_options', 'Portfolio Options', 'portfolio');
-		$this->add_meta_box('property_options', 'Property Options', 'property');
-		$this->add_meta_box('slider_options', 'Slider Options', 'property');
-		//add 2013-12-12
-		if( current_user_can( 'publish_pages' )|| current_user_can( 'manage_options' ))
-		{
-			$this->add_meta_box('property_sold_options','Reservation','property');
-		}
-		if(current_user_can('manage_options')){
-			$this->add_meta_box('property_confirm_options','Reservation Confirmation','property');
-		}
 	}
 
 	public function add_meta_box($id, $label, $post_type)
@@ -116,39 +105,10 @@ class PyreThemeFrameworkMetaboxes {
 		include 'metaboxes/page_options.php';
 	}
 
-	public function contact_options()
-	{
-		include 'metaboxes/style.php';
-		include 'metaboxes/contact_options.php';
-	}
-	public function slider_options()
-	{
-		include 'metaboxes/style.php';
-		include 'metaboxes/slider_options.php';
-	}
-
 	public function portfolio_options()
 	{
 		include 'metaboxes/style.php';
 		include 'metaboxes/portfolio_options.php';
-	}
-
-	public function property_options()
-	{
-		include 'metaboxes/style.php';
-		include 'metaboxes/property_options.php';
-	}
-
-	public function property_sold_options()
-	{
-		include 'metaboxes/style.php';
-		include 'metaboxes/sold_options.php';
-	}
-
-	public function property_confirm_options()
-	{
-		include 'metaboxes/style.php';
-		include 'metaboxes/confirm_options.php';
 	}
 
 	public function text($id, $label, $desc, $read=null,$html = '')
