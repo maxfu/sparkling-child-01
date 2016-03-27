@@ -1,150 +1,73 @@
 <?php
 
 class PyreThemeFrameworkMetaboxes {
-
-	public function __construct()
-	{
+	public function __construct() {
 		add_action('add_meta_boxes', array($this, 'add_meta_boxes'));
 		add_action('save_post', array($this, 'save_meta_boxes'));
 	}
-
-	public function add_meta_boxes()
-	{
+	public function add_meta_boxes() {
 		$this->add_meta_box('post_options', 'Post Options', 'post');
 		$this->add_meta_box('page_options', 'Page Options', 'page');
 		$this->add_meta_box('portfolio_options', 'Portfolio Options', 'portfolio');
 	}
-
-	public function add_meta_box($id, $label, $post_type)
-	{
-	    add_meta_box(
-	        'pyre_' . $id,
-	        __($label),
-	        array($this, $id),
-	        $post_type
-	    );
+	public function add_meta_box($id, $label, $post_type) {
+		add_meta_box(
+			'pyre_' . $id,
+	    __($label),
+	    array($this, $id),
+	    $post_type
+		);
 	}
-
-	public function save_meta_boxes($post_id)
-	{
-
-		if(defined( 'DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+	public function save_meta_boxes( $post_id ) {
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
 			return;
 		}
-
 		//Portfolio, Post, and Page Wraps to Prevent WooCommerce Forcing Data Save
-		if ( 'page' == $_POST['post_type'] || 'property' == $_POST['post_type'] || 'portfolio' == $_POST['post_type'] || 'post' == $_POST['post_type'] || 'partner' == $_POST['post_type'] || 'staff' == $_POST['post_type'] )
-		{
-			$oldState=get_post_meta($post_id, 'pyre_sold_status', true);
-			foreach($_POST as $key => $value) {
-    			update_post_meta($post_id, $key, $value);
-		}
-		if('property' == $_POST['post_type']){
-			$preOrderTime=$_POST['pyre_pre_order_time'];
-			$preOrderStatus=$_POST['pyre_sold_status'];
-			$preOrderAgent=$_POST['pyre_order_person'];
-			update_post_meta($post_id, 'pyre_agent', $_POST['pyre_agent']);
-			if($_POST['pyre_sold_status']=='reserved' && $_POST['pyre_order_person']!=null && $_POST['pyre_confirm_status']==null)
-			{
-				update_post_meta($post_id, 'pyre_confirm_status', 'pending');
+		if ( $_POST['post_type'] == 'page' || $_POST['post_type'] == 'portfolio' || $_POST['post_type'] == 'post' ) {
+			foreach( $_POST as $key => $value ) {
+				update_post_meta( $post_id, $key, $value );
 			}
 		}
-		if($_POST['click_ornot']){
-			if($_POST['pre_action_type']=='add' ){
-
-				linksforce_insert_preorder_data($_POST['pre_post_id'],$_POST['pre_agent_id'],current_time('mysql'));
-			}else{
-				linksforce_delete_preorder_data($_POST['pre_post_id'],$_POST['pre_agent_id']);
-				update_post_meta($post_id, 'pyre_sold_status', 'available');
-			}
-		}
-		if($_POST['confirm_click_ornot']){
-			$time=current_time('mysql');
-			linksforce_update_preorder_data($_POST['confirm_preorder_id'],$time);
-			$currentPostOrders=linksforce_get_all_preorder_by_id($post_id);
-			$to_email_array=array();
-			foreach($currentPostOrders as $itmes){
-				$agent=get_userdata($itmes['agent_id']);
-				$agentName=$agent->user_login;
-				$fromEmail=$agent->user_email;
-				$to_email_array[]=$agent->user_email;
-				if($itmes['confirm']=="confirm"){
-					$sucName=$agentName;
-					$sucTime=$itmes['pre_order'];
-				}
-			}
-			//print_r($to_email_array);exit;
-			$agentAdmin=get_userdata($_POST['confirm_user_id']);
-			$agentNameAdmin=$agentAdmin->user_login;
-			$fromEmailAdmin=$agentAdmin->user_email;
-			$header="From: ".$fromEmailAdmin;
-			if($to_email_array){
-				wp_mail($to_email_array,'Reservation Confirmmation',linksforce_confirm_reservation_mes($agentNameAdmin,$post_id,$time,$sucName,$sucTime),$header,'');
-			}
-		}
-		if($_POST['remove_old_click_ornot']){
-			for($i=0;$i<count($_POST['reomve_old_pre_order']);$i++)
-	       {
-	       	linksforce_update_preorder_old($_POST['reomve_old_pre_order'][$i]);
-	       }
-		}
-
 	}
-
+	public function post_options() {
+		include 'legacy_metaboxes/style.php';
+		include 'legacy_metaboxes/post_options.php';
 	}
-
-	public function post_options()
-	{
-		include 'metaboxes/style.php';
-		include 'metaboxes/post_options.php';
+	public function page_options() {
+		include 'legacy_metaboxes/style.php';
+		include 'legacy_metaboxes/page_options.php';
 	}
-
-	public function page_options()
-	{
-		include 'metaboxes/style.php';
-		include 'metaboxes/page_options.php';
+	public function portfolio_options() {
+		include 'legacy_metaboxes/style.php';
+		include 'legacy_metaboxes/portfolio_options.php';
 	}
-
-	public function portfolio_options()
-	{
-		include 'metaboxes/style.php';
-		include 'metaboxes/portfolio_options.php';
-	}
-
-	public function text($id, $label, $desc, $read=null,$html = '')
-	{
+	public function text($id, $label, $desc, $read=null,$html = '') {
 		global $post;
-
 		$html .= '<div class="pyre_metabox_field">';
 			$html .= '<label for="pyre_' . $id . '">';
 			$html .= $label;
 			$html .= '</label>';
 			$html .= '<div class="field">';
-			if($read=='true'){
+			if ( $read == 'true' ) {
 				$html .= '<input type="text" id="pyre_' . $id . '" name="pyre_' . $id . '" value="' . get_post_meta($post->ID, 'pyre_' . $id, true) .'" readonly="readonly"/>';
-			}else{
+			} else {
 				$html .= '<input type="text" id="pyre_' . $id . '" name="pyre_' . $id . '" value="' . get_post_meta($post->ID, 'pyre_' . $id, true) .'" />';
 			}
-
-				if($desc) {
-					$html .= '<p>' . $desc . '</p>';
-				}
+			if ( $desc ) {
+				$html .= '<p>' . $desc . '</p>';
+			}
 			$html .= '</div>';
-		$html .= '</div>';
-
-		echo $html;
-	}
-
-	public function textarea($id, $label, $desc,$read=null, $html = '')
-	{
-		global $post;
-
-		$html .= '<div class="pyre_metabox_field">';
+			$html .= '</div>';
+			echo $html;
+		}
+		public function textarea($id, $label, $desc,$read=null, $html = '') {
+			global $post;
+			$html .= '<div class="pyre_metabox_field">';
 			$html .= '<label for="pyre_' . $id . '">';
 			$html .= $label;
 			$html .= '</label>';
 			$html .= '<div class="field">';
-			if($read=='true'){
+			if ( $read == 'true' ) {
 			     $html .= '<textarea id="pyre_' . $id . '" name="pyre_' . $id . '" cols="110" rows="5" readonly="readonly">' . get_post_meta($post->ID, 'pyre_' . $id, true)  . '</textarea>';
 			}else{
 				$html .= '<textarea id="pyre_' . $id . '" name="pyre_' . $id . '" cols="110" rows="5">' . get_post_meta($post->ID, 'pyre_' . $id, true)  . '</textarea>';
