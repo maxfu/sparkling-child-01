@@ -25,7 +25,16 @@
 <link rel="profile" href="http://gmpg.org/xfn/11">
 <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
 
-<?php wp_head(); ?>
+<?php
+ob_start();
+wp_head();
+$themeHead = ob_get_contents();
+ob_end_clean();
+define( 'HEAD_CONTENT', $themeHead );
+
+$allowedTags = '<style><link><meta><title>';
+print theme_strip_tags_content( HEAD_CONTENT, $allowedTags );
+?>
 
 <?php $options = get_option( 'macland-options', array() ); ?>
 <?php if( of_get_option( 'masonry_layout' ) ) echo '<script src="https://npmcdn.com/masonry-layout@4.0/dist/masonry.pkgd.min.js"></script>'; ?>
