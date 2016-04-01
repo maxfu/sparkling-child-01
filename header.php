@@ -35,7 +35,7 @@ define( 'HEAD_CONTENT', $themeHead );
 $allowedTags = '<style><link><meta><title>';
 print theme_strip_tags_content( HEAD_CONTENT, $allowedTags );
 ?>
-
+<?php echo basic_wp_seo(); ?>
 <?php $options = get_option( 'macland-options', array() ); ?>
 <?php if( of_get_option( 'masonry_layout' ) ) echo '<script src="https://npmcdn.com/masonry-layout@4.0/dist/masonry.pkgd.min.js"></script>'; ?>
 </head>
