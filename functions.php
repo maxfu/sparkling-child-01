@@ -30,6 +30,8 @@ include_once('framework/maxfu_custom_metabox.php');
 // Add the MaxFu Customiser Pages
 include_once('framework/maxfu_custom_customiser.php');
 
+$options = get_option( 'macland-options', array() );
+
 // Add the Customsed Image Sizes
 if ( ! function_exists( 'macland_image_sizes' ) ) :
 function macland_image_sizes() {
@@ -39,8 +41,8 @@ function macland_image_sizes() {
   add_image_size( 'macland-agents-featured', 480, 640, true );
   add_image_size( 'macland-news-featured', 720, 450, true );
 }
-endif;
 add_action( 'after_setup_theme', 'macland_image_sizes' );
+endif;
 
 // Add Custom Functions
 // Image Resize Function
@@ -161,7 +163,7 @@ function maxfu_get_postids( $args )
   return $new_postids;
 }
 
-add_filter('wp_nav_menu_items','add_search_box', 10, 2);
+if( $options['menu_search'] == 'on' ) :
 function add_search_box($items, $args) {
   ob_start();
   get_search_form();
@@ -170,6 +172,8 @@ function add_search_box($items, $args) {
   $items .= '<li id="menu-item-search" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-search">' . $searchform . '</li>';
   return $items;
 }
+add_filter('wp_nav_menu_items','add_search_box', 10, 2);
+endif;
 
 /**
  * Filter HTML code and leave allowed/disallowed tags only
@@ -325,3 +329,16 @@ function basic_wp_seo() {
 
 	return $output;
 }
+
+function modify_post_mime_types( $post_mime_types ) {
+
+	// select the mime type, here: 'application/pdf'
+	// then we define an array with the label values
+
+	$post_mime_types['application/pdf'] = array( __( 'PDFs' ), __( 'Manage PDFs' ), _n_noop( 'PDF <span class="count">(%s)</span>', 'PDFs <span class="count">(%s)</span>' ) );
+
+	// then we return the $post_mime_types variable
+	return $post_mime_types;
+
+}
+add_filter( 'post_mime_types', 'modify_post_mime_types' );

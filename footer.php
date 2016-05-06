@@ -88,6 +88,5 @@
 </div><!-- #page -->
 
 <?php wp_footer(); ?>
-<?php theme_insert_js( HEAD_CONTENT ); ?>
 </body>
 </html>

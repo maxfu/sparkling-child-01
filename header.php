@@ -25,16 +25,7 @@
 <link rel="profile" href="http://gmpg.org/xfn/11">
 <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
 
-<?php
-ob_start();
-wp_head();
-$themeHead = ob_get_contents();
-ob_end_clean();
-define( 'HEAD_CONTENT', $themeHead );
-
-$allowedTags = '<style><link><meta><title>';
-print theme_strip_tags_content( HEAD_CONTENT, $allowedTags );
-?>
+<?php wp_head(); ?>
 <?php echo basic_wp_seo(); ?>
 <?php $options = get_option( 'macland-options', array() ); ?>
 <?php if( of_get_option( 'masonry_layout' ) ) echo '<script src="https://npmcdn.com/masonry-layout@4.0/dist/masonry.pkgd.min.js"></script>'; ?>
@@ -67,48 +58,31 @@ print theme_strip_tags_content( HEAD_CONTENT, $allowedTags );
 						</div>
 						<?php if( $options['menu_search'] == 'on' ) : ?>
 						<style type="text/css">
-						.maxfu-header-search {
-							position: relative;
-							float: right;
+						.menu-item-search form {
 							margin-top: 47px;
-							padding-left: 15px;
-							margin-right: 25px;
+							margin-bottom: 46px;
 						}
-						.maxfu-header-search .form-control:focus, .maxfu-footer-search .form-control:focus {
-							border-color: #1f1f1f;
-							-webkit-box-shadow: inset 0 0 0 rgba(0,0,0,.075), 0 0 0 rgba(0,0,0,.6);
-							box-shadow: inset 0 0 0 rgba(0,0,0,.075), 0 0 0 rgba(0,0,0,.6);
-						}
-						.maxfu-header-search .input-group {
+						.menu-item-search form .input-group .input-group-btn {
 							width: auto;
 						}
-						.maxfu-header-search .input-group input.form-control.search-query {
-							width: auto;
-						}
-						.maxfu-header-search .input-group span.input-group-btn {
-							display: inline-block;
-							float: left;
-						}
-						.maxfu-header-search input.form-control.search-query {
+						.menu-item-search form .input-group input {
 							border: 1px solid #1f1f1f;
 						}
-						.maxfu-header-search button#searchsubmit.btn.btn-default {
+						.menu-item-search form .input-group input:focus {
+							border-color: #1f1f1f;
+							outline: 0;
+							-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 1px rgba(31,31,31,.6);
+							box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 1px rgba(31,31,31,.6);
+						}
+						.menu-item-search form .input-group .input-group-btn {
+							width: auto;
+						}
+						.menu-item-search form .input-group .input-group-btn .btn {
 							color: #1f1f1f;
 							background-color: #ffffff;
 							border-color: #ffffff;
 						}
 						</style>
-						<div class="maxfu-header-search">
-							<form role="search" method="get" class="form-search" action="<?php echo esc_url( home_url( '/' ) ); ?>">
-							  <div class="input-group">
-							  	<label class="screen-reader-text" for="s"><?php _e( '[:en]Search for:[:zh]搜索：', 'sparkling' ); ?></label>
-							    <input type="text" class="form-control search-query" placeholder="<?php _e( '[:en]Search...[:zh]搜索…', 'sparkling' ); ?>" value="" name="s" title="<?php _e( '[:en]Search for:[:zh]搜索：', 'sparkling' ); ?>">
-							    <span class="input-group-btn">
-							      <button type="submit" class="btn btn-default" name="submit" id="searchsubmit" value="Search" style=""><span class="glyphicon glyphicon-search"></span></button>
-							    </span>
-							  </div>
-							</form>
-						</div>
 						<?php endif; ?>
 						<?php sparkling_header_menu(); // main navigation ?>
 					</div>
