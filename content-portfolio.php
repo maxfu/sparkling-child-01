@@ -167,7 +167,7 @@
 								<?php $leftnum = 3 - fmod( $counter, 3); ?>
 								<?php while($x <= $leftnum) : ?>
 									<div class="thumb">
-										<?php $image_url = esc_url( home_url( '/' ) ).'wp-content/uploads/2016/03/watermark.png'; ?>
+										<?php $image_url = 'http://www.maclandgroup.com/wp-content/uploads/2016/03/watermark.png'; ?>
 										<?php $resizedImage = vt_resize('', $image_url, 320, 200, true); ?>
 										<img src="<?php echo $resizedImage[url]; ?>" width="<?php echo $resizedImage[width]; ?>" height="<?php echo $resizedImage[height]; ?>" alt="<?php echo "slider_option_picture-$x－thumb"; ?>">
 									</div>

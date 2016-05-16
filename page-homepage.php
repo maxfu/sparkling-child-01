@@ -63,7 +63,7 @@ get_header(); ?>
 		</div>
 	</div>
 	<main id="main" class="site-main" role="main">
-		<img src="<?php echo esc_url( home_url( '/' ) ); ?>wp-content/uploads/2016/03/main-page-<?php _e( '[:en]en[:zh]zh', 'sparkling' ); ?>.png" alt="main-page" width="100%" class="aligncenter size-full wp-image-1213" />
+		<img src="http://www.maclandgroup.com/wp-content/uploads/2016/03/main-page-<?php _e( '[:en]en[:zh]zh', 'sparkling' ); ?>.png" alt="main-page" width="100%" class="aligncenter size-full wp-image-1213" />
 	</main><!-- #main -->
 	<style type="text/css">
 	.maxfu-home-video {
@@ -79,8 +79,8 @@ get_header(); ?>
 	}
 	</style>
 	<div class="maxfu-home-video">
-		<video controls poster="<?php echo esc_url( home_url( '/' ) ); ?>video/macland_intro_poster.jpg" preload="none">
-		  <source src="<?php echo esc_url( home_url( '/' ) ); ?>video/macland_intro.mp4" type="video/mp4">
+		<video controls poster="http://www.maclandgroup.com/video/macland_intro_poster.jpg" preload="none">
+		  <source src="http://www.maclandgroup.com/video/macland_intro.mp4" type="video/mp4">
 		  Your browser does not support HTML5 video.
 		</video>
 	</div>
